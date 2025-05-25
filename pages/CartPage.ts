@@ -1,6 +1,7 @@
 // pages/CartPage.ts
 import { Page, Locator, expect } from '@playwright/test';
-import { logger } from '../Logger';
+import { logger } from '../logger';
+
 
 
 export class CartPage {
