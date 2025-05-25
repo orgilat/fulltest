@@ -1,4 +1,7 @@
+
 import { Page, Locator, expect } from '@playwright/test';
+import { allure } from 'allure-playwright';
+
 
 export class HomePage {
   readonly page: Page;

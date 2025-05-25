@@ -6,7 +6,12 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "setup": "ts-node global-setup.ts",
+    "test-inside": "npx playwright test --project=inside",
+    "test-outside": "npx playwright test --project=outside",
+    "test-acc": "npx playwright test --project=accecibility",
+    "test-inside-only": "npx playwright test tests/autentication.spec.ts --project=inside",
+    "loadtest": "k6 run k6/loadtest.ts"  
   },
   "keywords": [],
   "author": "",
@@ -15,5 +20,8 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
     "@playwright/test": "^1.52.0"
+  },
+  "dependencies": {
+    "axe-core": "^4.10.3"
   }
 }
