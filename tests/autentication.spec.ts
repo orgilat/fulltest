@@ -1,5 +1,5 @@
 import { test, expect } from './fixtures'; // fixtures שלך עם page, mainPage וכו'
-import { logger } from '../Logger';
+import { logger } from '../logger';
 
 test.describe('טסטים לעמוד הראשי', () => {
 test.beforeEach(async ({ page }) => {
