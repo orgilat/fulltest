@@ -6,7 +6,7 @@ export default defineConfig({
   testDir: './tests',
   retries: 1,
   use: {
-    headless: false,
+    headless: true,
     baseURL: 'https://www.saucedemo.com/',
     // ---------------------------
     // הוספת Tracing גלובלי
@@ -25,7 +25,7 @@ export default defineConfig({
       testMatch: /.*autentication\.spec\.ts/,
       use: {
         storageState: 'storageState.json',
-        headless: false,
+        headless: true,
         baseURL: 'https://www.saucedemo.com/',
         // אפשר להגדיר trace שונה גם ברמת פרויקט:
         // trace: 'retain-on-failure',
@@ -36,7 +36,7 @@ export default defineConfig({
       testMatch: /.*accecibility\.spec\.ts/,
       use: {
         storageState: 'storageState.json',
-        headless: false,
+        headless: true,
         baseURL: 'https://www.saucedemo.com/',
         // trace: 'on',    // אם תרצה להקליט תמיד
       },
