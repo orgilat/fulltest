@@ -91,4 +91,5 @@ async numbers(n: number) {//מטרה- לא משנה מה תמיד יוצג פר�
     await expect(quantityInput).toHaveText("1");
   }
 }
+
 }

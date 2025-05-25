@@ -211,28 +211,29 @@ test.describe('Cart Page Tests', () => {
     await cartPage.removecross(6);
     logger.info("1")
   });
-    test.only('Step 15: Add and verify 1 item in the cart', async ({ cartPage }) => {
+    test('Step 15: Add and verify 1 item in the cart', async ({ cartPage }) => {
     await cartPage.numbers(1);
     logger.info("1")
   });
-      test.only('Step 16: Add and verify 1 item in the cart', async ({ cartPage }) => {
+      test('Step 16: Add and verify 1 item in the cart', async ({ cartPage }) => {
     await cartPage.numbers(2);
     logger.info("1")
   });
-      test.only('Step 17: Add and verify 1 item in the cart', async ({ cartPage }) => {
+      test('Step 17: Add and verify 1 item in the cart', async ({ cartPage }) => {
     await cartPage.numbers(3);
     logger.info("1")
   });
-      test.only('Step 18: Add and verify 1 item in the cart', async ({ cartPage }) => {
+      test('Step 18: Add and verify 1 item in the cart', async ({ cartPage }) => {
     await cartPage.numbers(4);
     logger.info("1")
   });
-      test.only('Step 19: Add and verify 1 item in the cart', async ({ cartPage }) => {
+      test('Step 19: Add and verify 1 item in the cart', async ({ cartPage }) => {
     await cartPage.numbers(5);
     logger.info("1")
   });
-      test.only('Step 20: Add and verify 1 item in the cart', async ({ cartPage }) => {
+      test('Step 20: Add and verify 1 item in the cart', async ({ cartPage }) => {
     await cartPage.numbers(6);
     logger.info("1")
   });
+
 });
