@@ -1,12 +1,16 @@
+// baseFixture.ts
 import { test as baseTest } from '@playwright/test';
+import { mixinFixtures as mixinCoverage } from '@bgotink/playwright-coverage';
 import { HomePage } from '../pages/HomePage';
 import { MainPage } from '../pages/MainPage';
-import { CartPage } from '../pages/CartPage'; // ✅ הוספת CartPage
+import { CartPage } from '../pages/CartPage';
 
-export const test = baseTest.extend<{
+const testWithCoverage = mixinCoverage(baseTest);
+
+export const test = testWithCoverage.extend<{
   homePage: HomePage;
   mainPage: MainPage;
-  cartPage: CartPage; // ✅ הוספת cartPage ל-type
+  cartPage: CartPage;
 }>({
   homePage: async ({ page }, use) => {
     await use(new HomePage(page));
@@ -16,7 +20,7 @@ export const test = baseTest.extend<{
     await use(new MainPage(page));
   },
 
-  cartPage: async ({ page }, use) => { // ✅ פיקסטיור חדש
+  cartPage: async ({ page }, use) => {
     await use(new CartPage(page));
   },
 });

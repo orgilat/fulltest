@@ -12,6 +12,8 @@
     "test-acc": "npx playwright test --project=accecibility",
     "test-inside-only": "npx playwright test tests/autentication.spec.ts --project=inside",
     "test-api": "npx playwright test --project=api",
+    "test-api-coverage": "npx playwright test --project=api --reporter=@bgotink/playwright-coverage",
+    "test-with-coverage": "nyc --reporter=text --reporter=html npx playwright test --project=api",
     "loadtest": "k6 run k6/loadtest.ts"
   },
   "keywords": [],
@@ -20,7 +22,9 @@
   "description": "",
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
-    "@playwright/test": "^1.52.0"
+    "@bgotink/playwright-coverage": "^0.3.2",
+    "@playwright/test": "^1.52.0",
+    "nyc": "^15.1.0"
   },
   "dependencies": {
     "axe-core": "^4.10.3",

@@ -15,7 +15,12 @@ export class CartPage {
   readonly cartIcon: Locator;
   readonly carts: Locator;
   readonly remove: Locator;
- readonly quanity: Locator;
+  readonly quanity: Locator;
+  readonly price: Locator;
+  readonly total: Locator;
+  readonly inventoryItems: Locator;
+  readonly removes: Locator;
+  readonly adds: Locator;
 
   constructor(page) {
     this.page = page;
@@ -26,11 +31,14 @@ export class CartPage {
     this.urcart = page.locator('span.title');
     this.addToCartButtons = page.locator('button[data-test^="add-to-cart"]');
     this.cartIcon = page.locator('.shopping_cart_link')
-     this.carts = page.locator('//div[@class="cart_item"]')
-      this.remove = page.locator('//div[@class="item_pricebar"]//button');
+    this.carts = page.locator('//div[@class="cart_item"]')
+    this.remove = page.locator('//div[@class="item_pricebar"]//button');
     this.quanity = page.locator("//div[@class='cart_quantity']");
-
-
+    this.price = page.locator('.inventory_item_price');
+    this.total = page.locator('.summary_subtotal_label');
+    this.inventoryItems = page.locator('//div[@class="inventory_item_name"]');
+    this.removes = page.locator('#remove');
+    this.adds = page.locator('#add-to-cart');
   }
 
   async expects() {
@@ -91,5 +99,29 @@ async numbers(n: number) {//מטרה- לא משנה מה תמיד יוצג פר�
     await expect(quantityInput).toHaveText("1");
   }
 }
+
+async removetocart(n: number) {//בדיקת הכפתור רמוב הפנימי בpom- הדרישה לחיצה עליו תשנה לאד טו קארט
+
+  await this.continueshop.click();
+  for (let i = 0; i < n; i++) {
+    const button = this.addToCartButtons.nth(0);
+    await button.click();
+  }
+  // נכנס לעגלת הקניות
+  await this.cartIcon.click();
+for (let i = 0; i < n ; i++) {
+    const button = this.inventoryItems.nth(0);
+    await button.click();
+    await expect(this.removes).toBeVisible()
+    await this.removes.click()
+    await expect(this.adds).toBeVisible()
+    await this.page.goBack()
+  }
+
+logger.info(" נצפה")
+} 
+
+
+
 
 }

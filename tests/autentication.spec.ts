@@ -236,4 +236,9 @@ test.describe('Cart Page Tests', () => {
     logger.info("1")
   });
 
+      test('Step 21: Check remove and add to cart button changes', async ({ cartPage }) => {
+    await cartPage.removetocart(3);
+    logger.info("Completed remove to cart verification test")
+  });
+
 });
