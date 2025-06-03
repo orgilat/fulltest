@@ -1,92 +1,27 @@
-name: CI Pipeline
-
+name: Playwright Tests
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main, develop ]
-
+    branches: [ main, master ]
 jobs:
-  # שלב 1: בדיקות בסיסיות (Lint + Unit)
-  lint-and-unit:
+  test:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run lint
-        run: npm run lint  # ESLint או Prettier
-
-      - name: Run unit tests
-        run: npm run test:unit  # אם יש יחידת בדיקות (למשל Jest)
-
-  # שלב 2: בדיקות API/E2E
-  e2e-tests:
-    needs: [lint-and-unit]
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        browser: [chromium, firefox, webkit]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install Playwright browsers
-        run: npx playwright install
-
-      - name: Run API tests
-        run: npm run test:api  # מפעיל רק את בדיקות ה-API
-
-      - name: Run E2E tests on ${{ matrix.browser }}
-        run: npx playwright test --project=${{ matrix.browser }} tests/e2e
-
-      - name: Upload Allure Results
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: allure-results
-          path: allure-results/
-
-      - name: Upload Coverage Report
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage-report
-          path: coverage/
-
-  # שלב 3: בדיקות Load (לא בכל push! נדלג אותו רק בעדכוני release)
-  load-tests:
-    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup k6 (אם משתמשים ב-k6)
-        run: sudo apt-get update && sudo apt-get install -y k6
-
-      - name: Run load tests
-        run: k6 run tests/load/load-test.js
-
-      - name: Upload Load Report
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: load-report
-          path: reports/load/
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright tests
+      run: npx playwright test
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
