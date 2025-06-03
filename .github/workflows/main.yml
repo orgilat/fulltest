@@ -1,39 +1,52 @@
-name: CI
+name: Playwright Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: [main, master]
   pull_request:
+    branches: [main, master]
 
 jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      test_dirs: ${{ steps.set-matrix.outputs.test_dirs }}
     steps:
       - uses: actions/checkout@v4
 
       - name: התקנת תלויות
         run: npm ci
 
-      - name: יצירת מטריצה של קבצי בדיקה
+      - name: התקנת דפדפני Playwright
+        run: npx playwright install --with-deps
+
+      - name: יצירת מטריצה של תיקיות בדיקה
         id: set-matrix
         run: |
-          echo "matrix=$(ls tests | grep -v '^load$' | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+          echo "test_dirs=$(ls tests | grep -v '^load$' | jq -R -s -c 'split(\"\\n\")[:-1]')" >> $GITHUB_OUTPUT
 
   run-tests:
     needs: setup
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        test_dir: ${{ fromJson(needs.setup.outputs.matrix) }}
+        test_dir: ${{ fromJson(needs.setup.outputs.test_dirs) }}
     steps:
       - uses: actions/checkout@v4
 
       - name: התקנת תלויות
         run: npm ci
 
+      - name: התקנת דפדפני Playwright
+        run: npx playwright install --with-deps
+
       - name: הרצת בדיקות עבור ${{ matrix.test_dir }}
         run: |
           npx playwright test tests/${{ matrix.test_dir }}/
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report-${{ matrix.test_dir }}
+          path: playwright-report/
+          retention-days: 30
