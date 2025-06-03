@@ -12,9 +12,6 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    launchOptions: {
-      args: ['--enable-precise-memory-info']
-    }
   },
   projects: [
     { name: 'outside',     testMatch: /.*exampleacc\.spec\.ts/ },
@@ -28,26 +25,14 @@ export default defineConfig({
       },
     },
   ],
-  reporter: [
+ reporter: [
     ['list'],
     ['@bgotink/playwright-coverage', defineCoverageReporterConfig({
       sourceRoot: path.resolve(__dirname),
       resultDir: path.join(__dirname, 'coverage'),
-      include: [
-        'tests/**/*.ts',
-        'pages/**/*.ts',
-        '*.ts'
-      ],
-      exclude: [
-        'node_modules/**',
-        'playwright.config.ts',
-        'global-setup.ts'
-      ],
-      instrumenter: 'istanbul',
       reports: [
         ['html'],
         ['text-summary'],
-        ['json', { file: 'coverage.json' }]
       ],
     })],
   ],
