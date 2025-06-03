@@ -1,0 +1,22 @@
+# תיקיות ותוצרים שנוצרים אוטומטית
+node_modules/
+playwright-report/
+test-results/
+storageState.json
+
+# קבצים זמניים של מערכת ההפעלה
+.DS_Store
+Thumbs.db
+
+# קבצים שנוצרים על ידי npm
+package-lock.json
+
+# קבצים של Playwright
+*.log
+*.tmp
+
+# קבצים של Visual Studio Code
+.vscode/
+
+# קבצים של מערכת הבקרה
+.idea/
